@@ -7,6 +7,8 @@ import {
   getDashboardSummary,
 } from "@/services/api";
 
+import { PatientsTable } from "@/components/PatientsTable";
+
 
 export default function HomePage() {
   const [dashboard, setDashboard] =
@@ -54,13 +56,13 @@ export default function HomePage() {
     <main className="min-h-screen bg-gray-100 p-8">
       <div className="max-w-6xl mx-auto">
 
-        <h1 className="text-4xl font-bold mb-8">
+        <h1 className="text-4xl font-bold text-gray-900 mb-8">
           Dashboard FESF-SUS
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
 
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <h2 className="text-gray-500 text-sm">
               Pacientes
             </h2>
@@ -70,7 +72,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <h2 className="text-gray-500 text-sm">
               Atendimentos
             </h2>
@@ -80,7 +82,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <h2 className="text-gray-500 text-sm">
               Pendentes
             </h2>
@@ -90,7 +92,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <h2 className="text-gray-500 text-sm">
               Em andamento
             </h2>
@@ -100,7 +102,7 @@ export default function HomePage() {
             </p>
           </div>
 
-          <div className="bg-white rounded-xl shadow p-6">
+          <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
             <h2 className="text-gray-500 text-sm">
               Concluídos
             </h2>
@@ -111,6 +113,9 @@ export default function HomePage() {
           </div>
 
         </div>
+
+        <PatientsTable />
+
       </div>
     </main>
   );
