@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from app.database import Base, engine
 from app import models
@@ -6,6 +7,7 @@ from app import models
 from app.routes.patients import router as patients_router
 from app.routes.appointments import router as appointments_router
 from app.routes.dashboard import router as dashboard_router
+
 
 Base.metadata.create_all(bind=engine)
 
@@ -15,9 +17,20 @@ app = FastAPI(
     version="1.0.0",
 )
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 app.include_router(patients_router)
 app.include_router(appointments_router)
 app.include_router(dashboard_router)
+
 
 @app.get("/")
 def read_root():
