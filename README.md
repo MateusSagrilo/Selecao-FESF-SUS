@@ -1,4 +1,4 @@
-# Seleção FESF-SUS – 1 F.C
+# Seleção FESF-SUS – Projeto Portfólio
 
 Sistema Full Stack desenvolvido para o Processo Seletivo FESF-SUS.
 
