@@ -1,0 +1,61 @@
+services:
+
+  db:
+    image: postgres:17
+
+    container_name: fesf_postgres
+
+    restart: always
+
+    environment:
+      POSTGRES_DB: fesf_sus
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+
+  backend:
+    build: ./backend
+
+    container_name: fesf_backend
+
+    restart: always
+
+    depends_on:
+      - db
+
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@db:5432/fesf_sus
+
+    ports:
+      - "8000:8000"
+
+    volumes:
+      - ./backend:/app
+
+
+  frontend:
+    build: ./frontend
+
+    container_name: fesf_frontend
+
+    restart: always
+
+    depends_on:
+      - backend
+
+    ports:
+      - "3000:3000"
+
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+
+
+volumes:
+  postgres_data:
