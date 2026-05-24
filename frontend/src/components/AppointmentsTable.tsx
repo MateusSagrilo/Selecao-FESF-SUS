@@ -89,11 +89,10 @@ export function AppointmentsTable({ onDataChange }: AppointmentsTableProps) {
 
   async function handleStatusChange(
     appointmentId: number,
-    status: Appointment["status"],
+    status: Appointment["status"]
   ) {
     try {
       await updateAppointmentStatus(appointmentId, status);
-
       await loadData();
       onDataChange?.();
     } catch (error) {
@@ -107,19 +106,21 @@ export function AppointmentsTable({ onDataChange }: AppointmentsTableProps) {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 mt-8">
+      <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4 md:p-6 mt-6 md:mt-8">
         <p className="text-gray-700">Carregando atendimentos...</p>
       </div>
     );
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-6 mt-8 overflow-x-auto">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Atendimentos</h2>
+    <div className="bg-white rounded-2xl shadow-md border border-gray-200 p-4 md:p-6 mt-6 md:mt-8">
+      <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6">
+        Atendimentos
+      </h2>
 
       <form
         onSubmit={handleCreateAppointment}
-        className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"
       >
         <select
           value={formData.patient_id}
@@ -154,7 +155,10 @@ export function AppointmentsTable({ onDataChange }: AppointmentsTableProps) {
           placeholder="Profissional responsável"
           value={formData.professional_name}
           onChange={(event) =>
-            setFormData({ ...formData, professional_name: event.target.value })
+            setFormData({
+              ...formData,
+              professional_name: event.target.value,
+            })
           }
           className="border border-gray-300 rounded-lg px-4 py-2 text-gray-900"
           required
@@ -197,57 +201,103 @@ export function AppointmentsTable({ onDataChange }: AppointmentsTableProps) {
 
       {error && <p className="text-red-600 mb-4">{error}</p>}
 
-      <table className="w-full border-collapse">
-        <thead>
-          <tr className="border-b">
-            <th className="text-left py-3 text-gray-700 font-semibold">
-              Paciente ID
-            </th>
+      <div className="md:hidden space-y-4">
+        {appointments.map((appointment) => (
+          <div
+            key={appointment.id}
+            className="rounded-xl border border-gray-200 bg-gray-50 p-4"
+          >
+            <p className="font-semibold text-gray-900">
+              Atendimento #{appointment.id}
+            </p>
 
-            <th className="text-left py-3 text-gray-700 font-semibold">Tipo</th>
+            <p className="text-sm text-gray-700">
+              Paciente ID: {appointment.patient_id}
+            </p>
 
-            <th className="text-left py-3 text-gray-700 font-semibold">
-              Profissional
-            </th>
+            <p className="text-sm text-gray-700">
+              Tipo: {appointment.service_type}
+            </p>
 
-            <th className="text-left py-3 text-gray-700 font-semibold">
-              Status
-            </th>
-          </tr>
-        </thead>
+            <p className="text-sm text-gray-700">
+              Profissional: {appointment.professional_name}
+            </p>
 
-        <tbody>
-          {appointments.map((appointment) => (
-            <tr key={appointment.id} className="border-b hover:bg-gray-50">
-              <td className="py-3 text-gray-800">{appointment.patient_id}</td>
+            <select
+              value={appointment.status}
+              onChange={(event) =>
+                handleStatusChange(
+                  appointment.id,
+                  event.target.value as Appointment["status"]
+                )
+              }
+              className="mt-3 w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-900"
+            >
+              <option value="pending">Pendente</option>
+              <option value="in_progress">Em andamento</option>
+              <option value="completed">Concluído</option>
+              <option value="cancelled">Cancelado</option>
+            </select>
+          </div>
+        ))}
+      </div>
 
-              <td className="py-3 text-gray-800">{appointment.service_type}</td>
-
-              <td className="py-3 text-gray-800">
-                {appointment.professional_name}
-              </td>
-
-              <td className="py-3 text-gray-800">
-                <select
-                  value={appointment.status}
-                  onChange={(event) =>
-                    handleStatusChange(
-                      appointment.id,
-                      event.target.value as Appointment["status"],
-                    )
-                  }
-                  className="border border-gray-300 rounded-lg px-3 py-1 text-gray-900"
-                >
-                  <option value="pending">Pendente</option>
-                  <option value="in_progress">Em andamento</option>
-                  <option value="completed">Concluído</option>
-                  <option value="cancelled">Cancelado</option>
-                </select>
-              </td>
+      <div className="hidden md:block overflow-x-auto">
+        <table className="w-full border-collapse">
+          <thead>
+            <tr className="border-b">
+              <th className="text-left py-3 text-gray-700 font-semibold">
+                Paciente ID
+              </th>
+              <th className="text-left py-3 text-gray-700 font-semibold">
+                Tipo
+              </th>
+              <th className="text-left py-3 text-gray-700 font-semibold">
+                Profissional
+              </th>
+              <th className="text-left py-3 text-gray-700 font-semibold">
+                Status
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+
+          <tbody>
+            {appointments.map((appointment) => (
+              <tr key={appointment.id} className="border-b hover:bg-gray-50">
+                <td className="py-3 text-gray-800">
+                  {appointment.patient_id}
+                </td>
+
+                <td className="py-3 text-gray-800">
+                  {appointment.service_type}
+                </td>
+
+                <td className="py-3 text-gray-800">
+                  {appointment.professional_name}
+                </td>
+
+                <td className="py-3 text-gray-800">
+                  <select
+                    value={appointment.status}
+                    onChange={(event) =>
+                      handleStatusChange(
+                        appointment.id,
+                        event.target.value as Appointment["status"]
+                      )
+                    }
+                    className="border border-gray-300 rounded-lg px-3 py-1 text-gray-900"
+                  >
+                    <option value="pending">Pendente</option>
+                    <option value="in_progress">Em andamento</option>
+                    <option value="completed">Concluído</option>
+                    <option value="cancelled">Cancelado</option>
+                  </select>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
