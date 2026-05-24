@@ -9,6 +9,7 @@ Aplicação para gestão básica de pacientes e atendimentos, com dashboard de i
 ## Tecnologias utilizadas
 
 ### Backend
+
 - Python
 - FastAPI
 - SQLAlchemy
@@ -16,12 +17,14 @@ Aplicação para gestão básica de pacientes e atendimentos, com dashboard de i
 - Pydantic
 
 ### Frontend
+
 - React
 - Next.js
 - TypeScript
 - TailwindCSS
 
 ### Infraestrutura
+
 - Docker
 - Docker Compose
 
@@ -39,3 +42,20 @@ Aplicação para gestão básica de pacientes e atendimentos, com dashboard de i
 
 ```bash
 docker compose up --build
+
+## Preview
+
+### Dashboard Desktop
+
+![Dashboard Desktop](./docs/DASHBOARD-DESKTOP.png)
+
+### Dashboard Mobile
+
+![Dashboard Mobile](./docs/DASHBOARD-MOBILE1.png)
+![Dashboard Mobile](./docs/DASHBOARD-MOBILE2.png)
+![Dashboard Mobile](./docs/DASHBOARD-MOBILE3.png)
+
+### Documentação da API
+
+![Swagger API](./docs/SWAGGER-API.png)
+```
